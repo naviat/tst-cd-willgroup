@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: php:7.0-apache
+    working_directory: ~/.
     steps:
       - run:
           name: Install System Packages
