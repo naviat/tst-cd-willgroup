@@ -5,6 +5,7 @@ jobs:
       - image: php:7.0-apache
     working_directory: /app
     steps:
+      - checkout
       - run:
           name: Install System Packages
           command: |
