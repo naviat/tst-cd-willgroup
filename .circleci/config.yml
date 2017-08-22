@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    docker: circleci/python:3\
+    branches:
+      only:
+        - devlops
+    steps:
+      - run:
+          name: Install System Packages
+          command: |
+            apt-get update && apt-get -y install zip
+            apt-get --quiet install --yes python-pip
+            pip install -U pip
+            pip install awscli
+      - run:
+          name: zip code
+          command: |
+            zip -r source-test01.zip .
+      - run:
+          name: Copy to S3 
+          command: |
+            aws s3 cp source-test01.zip s3://tst-cd-willgroup/hoipla-{BRANCH}-{SHORT_COMMIT}.zip    
+      - deploy:
+          name: Code deploy 
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "devlops" ]; then
+              aws deploy create-deployment --application-name hoipla --deployment-group-name tst-hoipla-deploygroup --deployment-config-name CodeDeployDefault.AllAtOnce --s3-location bucket=tst-cd-willgroup,bundleType=zip,key=hoipla-{BRANCH}-{SHORT_COMMIT}
+            fi
