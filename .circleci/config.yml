@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    docker: circleci/python:3
+    docker: php:7.0-apache
     branches:
       only:
         - devlops
