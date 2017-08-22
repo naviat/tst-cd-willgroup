@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: php:7.0-apache
-    working_directory: /
+    working_directory: ~/
     steps:
       - run:
           name: Install System Packages
@@ -14,7 +14,9 @@ jobs:
             pip install awscli
       - run:
           name: zip code
-          command: zip -r source-hoipla.zip .
+          command: | 
+            cd /
+            zip -r source-hoipla.zip .
       - run:
           name: Upload code to S3
           command: aws s3 cp source-hoipla.zip s3://tst-cd-willgroup1/hoipla-{BRANCH}-{SHORT_COMMIT}.zip
