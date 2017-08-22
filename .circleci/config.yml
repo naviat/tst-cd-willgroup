@@ -16,10 +16,10 @@ jobs:
       - run:
           name: zip code
           command: | 
-            zip -r source-hoipla.zip . -x .gitignore .git
+            zip -r source-hoipla.zip .
       - run:
           name: Upload code to S3
-          command: aws s3 cp source-hoipla.zip s3://tst-cd-willgroup1/hoipla-{BRANCH}-{SHORT_COMMIT}.zip
+          command: aws s3 cp source-hoipla.zip s3://tst-cd-willgroup1/hoipla.zip
       - deploy:
           name: Execute CodeDeploy
-          command: aws deploy create-deployment --application-name hoipla --deployment-group-name tst-hoipla-deploygroup --deployment-config-name CodeDeployDefault.AllAtOnce --s3-location bucket=tst-cd-willgroup1,bundleType=zip,key=hoipla-{BRANCH}-{SHORT_COMMIT}
+          command: aws deploy create-deployment --application-name hoipla --deployment-group-name tst-hoipla-deploygroup --deployment-config-name CodeDeployDefault.AllAtOnce --s3-location bucket=tst-cd-willgroup1,bundleType=zip,key=hoipla.zip
