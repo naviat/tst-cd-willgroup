@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: php:7.0-apache
-    working_directory: ~/
+    working_directory: /app
     steps:
       - run:
           name: Install System Packages
@@ -15,7 +15,6 @@ jobs:
       - run:
           name: zip code
           command: | 
-            cd /
             zip -r source-hoipla.zip .
       - run:
           name: Upload code to S3
